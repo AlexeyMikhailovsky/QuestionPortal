@@ -1,7 +1,10 @@
 package by.htp.main.controller;
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
+import by.htp.main.entity.Question;
+import by.htp.main.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +24,34 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private QuestionService questionService;
+
+    @RequestMapping("/mainpage")
+    public String toMainPage(@RequestParam("customerId") int theId,
+                             Model theModel){
+        Customer theCustomer = customerService.getCustomer(theId);
+
+        theModel.addAttribute("customer", theCustomer);
+        theModel.addAttribute("questions", someQ(theCustomer.getId(), theCustomer.getEmail(), true));
+        return "main";
+    }
+
+    @PostMapping("/main")
+    public String mainPage(@ModelAttribute("customer") Customer theCustomer){
+        customerService.saveCustomer(theCustomer);
+        return "main";
+    }
+
+
     @RequestMapping("/edit")
     public String editPage(@RequestParam("customerId") int theId,
                            Model theModel){
+
+        Customer theCustomer = customerService.getCustomer(theId);
+
+        theModel.addAttribute("customer", theCustomer);
+
         return "edit";
     }
 
@@ -40,11 +68,57 @@ public class CustomerController {
 
     @RequestMapping("/processForm")
     public String processForm(@ModelAttribute("customer") Customer customer, Model theModel) {
-        System.out.println("data: " + customer.getEmail()
-                + " " + customer.getPassword());
-        Customer theCustomer = customerService.authorization(customer.getEmail(),customer.getPassword());
+        Customer theCustomer = oneC(customer.getEmail());
         theModel.addAttribute("customer", theCustomer);
+        theModel.addAttribute("questions", someQ(theCustomer.getId(), theCustomer.getEmail(), true));
+
         return "main";
+    }
+
+    private Customer oneC(String email){
+        Customer theCustomer = new Customer();
+        List<Customer> theCustomers = customerService.getCustomers();
+        for (Customer c: theCustomers) {
+            if (email.equals(c.getEmail())){
+                theCustomer = c;
+            }
+        }
+
+        return theCustomer;
+    }
+
+    private List<Question> someQ(int id, String email, boolean f){
+        List<Question> questions = questionService.getQuestions();
+        CopyOnWriteArrayList<Question> theQuestions = new CopyOnWriteArrayList<>();
+        theQuestions.addAll(questions);
+
+        if (f) {
+            for (Question q: theQuestions) {
+                if (q.getIdCustomer() != id ){
+                    theQuestions.remove(q);
+                }
+            }
+        }
+        else  {
+            for (Question q: theQuestions) {
+                if ( !(email.equals(q.getToCustomerEmail())) ){
+                    theQuestions.remove(q);
+                }
+            }
+        }
+        questions.clear();
+        questions.addAll(theQuestions);
+        return questions;
+    }
+
+    @GetMapping("/showQuestionForm")
+    public String showQuestionForm(@RequestParam("customerId") int theId,
+                                   Model theModel) {
+
+        Question theQuestion = new Question();
+        theModel.addAttribute("question", theQuestion);
+
+        return "changeQuestion";
     }
 
     @GetMapping("/showFormForAdd")
@@ -62,7 +136,7 @@ public class CustomerController {
 
         customerService.saveCustomer(theCustomer);
 
-        return "redirect:/customer/list";
+        return "redirect:/customer/main";
     }
 
     @GetMapping("/showFormForUpdate")
@@ -76,14 +150,37 @@ public class CustomerController {
         return "customer-form";
     }
 
-    @GetMapping("/delete")
-    public String deleteCustomer(@RequestParam("customerId") int theId) {
+    @PostMapping("/processDelete")
+    public String deleteCustomer(@ModelAttribute("customer") Customer theCustomer) {
 
-        customerService.deleteCustomer(theId);
+        System.out.println("id: "+ theCustomer.getId());
+        questionService.deleteQuestion(theCustomer.getId());
+        customerService.deleteCustomer(theCustomer.getId());
 
-        return "login";
+        return "redirect:/customer/login";
     }
 
+    @GetMapping("/delete")
+    public String deletePage(@RequestParam("customerId") int theId,
+                             Model theModel) {
+
+        Customer theCustomer = customerService.getCustomer(theId);
+
+        theModel.addAttribute("customer", theCustomer);
+
+        return "delete";
+    }
+
+    @GetMapping("/answerpage")
+    public String answerPage(@RequestParam("customerId") int theId,
+                             Model theModel) {
+
+        Customer theCustomer = customerService.getCustomer(theId);
+
+        theModel.addAttribute("customer", theCustomer);
+        theModel.addAttribute("questions", someQ(theId, theCustomer.getEmail(), false));//change to
+        return "answer";
+    }
 
 }
 

@@ -3,7 +3,6 @@ package by.htp.main.service;
 import java.util.List;
 
 import by.htp.main.entity.Customer;
-import org.hibernate.service.spi.ServiceException;
 
 public interface CustomerService {
 
@@ -15,7 +14,7 @@ public interface CustomerService {
 
     public void deleteCustomer(int theId);
 
-    Customer authorization (String email, String password) ;
+    public Customer authorization (String email, String password) ;
 
 }
 

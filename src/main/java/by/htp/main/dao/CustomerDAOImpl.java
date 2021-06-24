@@ -1,15 +1,11 @@
 package by.htp.main.dao;
 
 import java.util.List;
-
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import by.htp.main.entity.Customer;
 
@@ -37,7 +33,6 @@ public class CustomerDAOImpl implements CustomerDAO {
         Session currentSession = sessionFactory.getCurrentSession();
 
         currentSession.saveOrUpdate(theCustomer);
-
     }
 
     public Customer getCustomer(int theId) {
@@ -48,7 +43,6 @@ public class CustomerDAOImpl implements CustomerDAO {
 
         return theCustomer;
     }
-
 
     public void deleteCustomer(int theId) {
 
@@ -63,14 +57,25 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public Customer authorization(String email, String password) {
+
         Session currentSession = sessionFactory.getCurrentSession();
-        Query theQuery = currentSession.createQuery("from Customer where email = '" + email + "' and password = '" + password + "'", Customer.class);
-        System.out.println("kon");
+
+        Query<Customer> theQuery =
+                currentSession.createQuery("from Customer order by lastName",
+                        Customer.class);
+
+        List<Customer> customers = theQuery.getResultList();
         Customer customer = new Customer();
-        customer =(Customer) theQuery.uniqueResult();
+        System.out.println(customers.get(0)+"------");
+        for (Customer c: customers) {
+            System.out.println(c.getEmail()+"-----"+c.getPassword());
+            if (email.equals(c.getEmail())){
+                customer = c;
+            }
+        }
+        System.out.println("kon");
         return customer;
     }
-
 }
 
 

@@ -38,14 +38,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer authorization(String email, String password)  {
-        Customer customer = null;
-        try {
-            customer = customerDAO.authorization(email, password);
-        }catch (Exception e) {
-
-        }
-        return customer;
+        return customerDAO.authorization(email, password);
     }
+
+
 }
 
 

@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
@@ -20,12 +21,53 @@
 <p>
     <a href="list">list</a>
 </p>
+
+<table>
+    <tr>
+        <th>ToCustomer</th>
+        <th>QuestionText</th>
+        <th>AnswerType</th>
+        <th>CustomerId</th>
+        <th>answer</th>
+    </tr>
+    <c:forEach var="tempQuestion" items="${questions}">
+            <tr>
+                <td>${tempQuestion.toCustomerEmail}</td>
+                <td>${tempQuestion.question}</td>
+                <td>${tempQuestion.answerType}</td>
+                <td>${tempQuestion.idCustomer}</td>
+                <td>${tempQuestion.answer}</td>
+            </tr>
+    </c:forEach>
+</table>
+
+<c:set var="tempCustomer" value="${customer}"/>
+
+<input type="button" value="Add Question"
+       onclick="window.location.href='showQuestionForm'; return false;"
+       class="add-button" />
+
 <p>
-    <c:set var="tempCustomer" value="${customer}"/>
+
+
     <c:url var="updateLink" value="/customer/edit">
         <c:param name="customerId" value="${tempCustomer.id}" />
     </c:url>
     <a href="${updateLink}">Update</a>
+</p>
+
+<p>
+    <c:url var="deleteLink" value="/customer/delete">
+        <c:param name="customerId" value="${tempCustomer.id}" />
+    </c:url>
+    <a href="${deleteLink}">Delete</a>
+</p>
+
+<p>
+    <c:url var="answerLink" value="/customer/answerpage">
+        <c:param name="customerId" value="${tempCustomer.id}" />
+    </c:url>
+    <a href="${answerLink}">Answer</a>
 </p>
 </body>
 </html>

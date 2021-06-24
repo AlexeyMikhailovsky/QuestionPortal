@@ -32,7 +32,7 @@
 </div>
 
 <div id="container">
-    <h3>Save</h3>
+    <h3>Save Customer</h3>
 
     <form:form action="saveCustomer" modelAttribute="customer" method="POST">
 
