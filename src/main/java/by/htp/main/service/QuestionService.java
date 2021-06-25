@@ -12,5 +12,7 @@ public interface QuestionService {
 
     public Question getQuestion(int theId);
 
+    public void deleteQuestions(int theId);
+
     public void deleteQuestion(int theId);
 }

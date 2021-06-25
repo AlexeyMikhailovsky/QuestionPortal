@@ -14,19 +14,28 @@ public class QuestionServiceImpl implements QuestionService{
     @Autowired
     private QuestionDAO questionDAO;
 
+    //@Override
     @Transactional
     public List<Question> getQuestions() {
         return questionDAO.getQuestions();
     }
 
+   // @Override
    @Transactional
     public void saveQuestion(Question theQuestion) {
         questionDAO.saveQuestion(theQuestion);
     }
 
+   // @Override
    @Transactional
     public Question getQuestion(int theId) {
         return questionDAO.getQuestion(theId);
+    }
+
+    //@Override
+    @Transactional
+    public void deleteQuestions(int theId) {
+        questionDAO.deleteQuestions(theId);
     }
 
     @Transactional

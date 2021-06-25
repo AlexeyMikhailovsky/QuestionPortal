@@ -12,6 +12,7 @@ import by.htp.main.entity.Customer;
 @Repository
 public class CustomerDAOImpl implements CustomerDAO {
 
+    // need to inject the session factory
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -33,6 +34,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         Session currentSession = sessionFactory.getCurrentSession();
 
         currentSession.saveOrUpdate(theCustomer);
+
     }
 
     public Customer getCustomer(int theId) {
@@ -64,6 +66,7 @@ public class CustomerDAOImpl implements CustomerDAO {
                 currentSession.createQuery("from Customer order by lastName",
                         Customer.class);
 
+        // execute query and get result list
         List<Customer> customers = theQuery.getResultList();
         Customer customer = new Customer();
         System.out.println(customers.get(0)+"------");

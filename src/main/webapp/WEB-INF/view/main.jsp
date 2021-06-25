@@ -38,6 +38,15 @@
                 <td>${tempQuestion.idCustomer}</td>
                 <td>${tempQuestion.answer}</td>
             </tr>
+
+        <c:url var="deleteQ" value="/customer/questionDelete">
+            <c:param name="questionId" value="${tempQuestion.idQ}" />
+            <c:param name="customerId" value="${customer.id}" />
+        </c:url>
+
+        <a href="${deleteQ}"
+           onclick="if (!(confirm('Are you sure you want to delete this question?'))) return false">Delete question</a>
+
     </c:forEach>
 </table>
 
@@ -47,6 +56,11 @@
        onclick="window.location.href='showQuestionForm'; return false;"
        class="add-button" />
 
+
+
+IddfdfdffD:${customer.id}
+IddfdfdffD:${customer.password}
+IddfdfdffD:${customer.email}
 <p>
 
 

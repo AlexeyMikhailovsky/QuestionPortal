@@ -21,6 +21,7 @@ import by.htp.main.service.CustomerService;
 @RequestMapping("/customer")
 public class CustomerController {
 
+    // need to inject our customer service
     @Autowired
     private CustomerService customerService;
 
@@ -68,8 +69,11 @@ public class CustomerController {
 
     @RequestMapping("/processForm")
     public String processForm(@ModelAttribute("customer") Customer customer, Model theModel) {
+
         Customer theCustomer = oneC(customer.getEmail());
         theModel.addAttribute("customer", theCustomer);
+
+
         theModel.addAttribute("questions", someQ(theCustomer.getId(), theCustomer.getEmail(), true));
 
         return "main";
@@ -83,11 +87,10 @@ public class CustomerController {
                 theCustomer = c;
             }
         }
-
         return theCustomer;
     }
 
-    private List<Question> someQ(int id, String email, boolean f){
+    private List<Question> someQ(int id, String email, boolean f){ //true - questions false- answer
         List<Question> questions = questionService.getQuestions();
         CopyOnWriteArrayList<Question> theQuestions = new CopyOnWriteArrayList<>();
         theQuestions.addAll(questions);
@@ -110,6 +113,7 @@ public class CustomerController {
         questions.addAll(theQuestions);
         return questions;
     }
+
 
     @GetMapping("/showQuestionForm")
     public String showQuestionForm(@RequestParam("customerId") int theId,
@@ -136,7 +140,7 @@ public class CustomerController {
 
         customerService.saveCustomer(theCustomer);
 
-        return "redirect:/customer/main";
+        return "redirect:/customer/list";
     }
 
     @GetMapping("/showFormForUpdate")
@@ -150,11 +154,24 @@ public class CustomerController {
         return "customer-form";
     }
 
+    @PostMapping("/questionDelete")
+    public String deleteQuestion(@RequestParam("customerId") int theCustomerId, @RequestParam("questionId") int theQuestionId,
+                                 Model theModel) {
+
+        questionService.deleteQuestion(theQuestionId);
+        Customer theCustomer = customerService.getCustomer(theCustomerId);//chek
+
+        theModel.addAttribute("customer", theCustomer);
+        theModel.addAttribute("questions", someQ(theCustomer.getId(), theCustomer.getEmail(), true));
+
+        return "main";
+    }
+
     @PostMapping("/processDelete")
     public String deleteCustomer(@ModelAttribute("customer") Customer theCustomer) {
 
         System.out.println("id: "+ theCustomer.getId());
-        questionService.deleteQuestion(theCustomer.getId());
+        questionService.deleteQuestions(theCustomer.getId());
         customerService.deleteCustomer(theCustomer.getId());
 
         return "redirect:/customer/login";

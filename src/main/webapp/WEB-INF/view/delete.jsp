@@ -13,6 +13,9 @@
     <title>AccountDeletePage</title>
 </head>
 <body>
+IddfdfdffD:${customer.id}
+IddfdfdffD:${customer.password}
+IddfdfdffD:${customer.email}
 
 <form:form action="processDelete" modelAttribute="customer" method="POST">
     <form:hidden path="id" />
