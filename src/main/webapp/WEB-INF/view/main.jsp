@@ -13,6 +13,7 @@
     <title>Title</title>
 </head>
 <body>
+
 <div id="wrapper">
     <div id="header">
         <h2>QuestionPortal</h2>
@@ -47,16 +48,26 @@
         <a href="${deleteQ}"
            onclick="if (!(confirm('Are you sure you want to delete this question?'))) return false">Delete question</a>
 
+        <c:url var="editQ" value="/customer/showFormQuestionForUpdate">
+            <c:param name="questionId" value="${tempQuestion.idQ}" />
+            <c:param name="customerId" value="${customer.id}" />
+        </c:url>
+
+        <a href="${editQ}">Edit question</a>
+
     </c:forEach>
 </table>
 
 <c:set var="tempCustomer" value="${customer}"/>
 
-<input type="button" value="Add Question"
-       onclick="window.location.href='showQuestionForm'; return false;"
-       class="add-button" />
+<p>
 
 
+    <c:url var="addLink" value="/customer/showQuestionForm">
+        <c:param name="customerId" value="${tempCustomer.id}" />
+    </c:url>
+    <a href="${addLink}">Add Question</a>
+</p>
 
 IddfdfdffD:${customer.id}
 IddfdfdffD:${customer.password}

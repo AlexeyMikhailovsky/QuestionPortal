@@ -22,14 +22,19 @@
         <th>CustomerId</th>
         <th>answer</th>
     </tr>
-    <c:forEach var="tempQuestion" items="${questions}">
+    <c:forEach var="question" items="${questions}">
         <tr>
-            <td>${tempQuestion.toCustomerEmail}</td>
-            <td>${tempQuestion.question}</td>
-            <td>${tempQuestion.answerType}</td>
-            <td>${tempQuestion.idCustomer}</td>
-            <td>${tempQuestion.answer}</td>
+            <td>${question.toCustomerEmail}</td>
+            <td>${question.question}</td>
+            <td>${question.answerType}</td>
+            <td>${question.idCustomer}</td>
+            <td>${question.answer}</td>
         </tr>
+        <c:url var="toAnswer" value="/customer/toanswer">
+            <c:param name="questionIdQ" value="${question.idQ}" />
+            <c:param name="customerId" value="${customer.id}" />
+        </c:url>
+        <a href="${toAnswer}">to answer</a>
     </c:forEach>
 </table>
 

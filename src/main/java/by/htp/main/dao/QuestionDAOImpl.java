@@ -19,31 +19,23 @@ public class QuestionDAOImpl implements QuestionDAO{
     @Override
     public List<Question> getQuestions() {
         Session currentSession = sessionFactory.getCurrentSession();
-
         Query<Question> theQuery =
                 currentSession.createQuery("from Question order by toCustomerEmail",
                         Question.class);
-
         List<Question> questions = theQuery.getResultList();
-
         return questions;
     }
 
     @Override
     public void saveQuestion(Question theQuestion) {
-
         Session currentSession = sessionFactory.getCurrentSession();
-
         currentSession.saveOrUpdate(theQuestion);
     }
 
     @Override
     public Question getQuestion(int theId) {
-
         Session currentSession = sessionFactory.getCurrentSession();
-
         Question theQuestion = currentSession.get(Question.class, theId);
-
         return theQuestion;
 
     }
@@ -51,18 +43,15 @@ public class QuestionDAOImpl implements QuestionDAO{
     @Override
     public void deleteQuestions(int theId) {
         Session currentSession = sessionFactory.getCurrentSession();
-
         Query theQuery =
                 currentSession.createQuery("delete from Question where idCustomer=:questionId");
         theQuery.setParameter("questionId", theId);
-
         theQuery.executeUpdate();
     }
 
     @Override
     public void deleteQuestion(int theId) {
         Session currentSession = sessionFactory.getCurrentSession();
-
         Query theQuery =
                 currentSession.createQuery("delete from Question where idQ=:questionId");
         theQuery.setParameter("questionId", theId);

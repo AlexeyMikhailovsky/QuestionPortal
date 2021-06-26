@@ -40,8 +40,6 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer authorization(String email, String password)  {
         return customerDAO.authorization(email, password);
     }
-
-
 }
 
 
