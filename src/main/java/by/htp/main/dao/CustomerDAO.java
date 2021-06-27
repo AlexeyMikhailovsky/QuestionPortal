@@ -14,6 +14,4 @@ public interface CustomerDAO {
 
     public void deleteCustomer(int theId);
 
-    public Customer authorization (String login, String password);
-
 }

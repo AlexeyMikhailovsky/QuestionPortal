@@ -11,31 +11,15 @@
 <html>
 <head>
     <title>Login Page</title>
-
-    <link rel="stylesheet" type="text/css"
-          href="<c:url value="/resources/css/style.css"/>" />
-
-    <link rel="stylesheet" type="text/css"
-          href="<c:url value="/resources/css/customer-form.css"/>" />
-
 </head>
 <body>
-
-
 <form:form action="processForm" modelAttribute="customer">
-
     Login: <form:input placeholder="login"  path="email" />
-
     <br><br>
-
     Password: <form:password placeholder="password" path="password" />
-
     <br/><br/>
-
     <input type="submit" value="Submit" />
-
 </form:form>
-
 <p>
     <a href="showFormForAdd">Registration</a>
 </p>

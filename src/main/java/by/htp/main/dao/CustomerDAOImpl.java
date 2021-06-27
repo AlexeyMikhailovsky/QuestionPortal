@@ -16,13 +16,11 @@ public class CustomerDAOImpl implements CustomerDAO {
     private SessionFactory sessionFactory;
 
     public List<Customer> getCustomers() {
-
         Session currentSession = sessionFactory.getCurrentSession();
         Query<Customer> theQuery =
                 currentSession.createQuery("from Customer order by lastName",
                         Customer.class);
         List<Customer> customers = theQuery.getResultList();
-
         return customers;
     }
 
@@ -43,25 +41,6 @@ public class CustomerDAOImpl implements CustomerDAO {
                 currentSession.createQuery("delete from Customer where id=:customerId");
         theQuery.setParameter("customerId", theId);
         theQuery.executeUpdate();
-    }
-
-    @Override
-    public Customer authorization(String email, String password) {
-        Session currentSession = sessionFactory.getCurrentSession();
-        Query<Customer> theQuery =
-                currentSession.createQuery("from Customer order by lastName",
-                        Customer.class);
-        List<Customer> customers = theQuery.getResultList();
-        Customer customer = new Customer();
-        System.out.println(customers.get(0)+"------");
-        for (Customer c: customers) {
-            System.out.println(c.getEmail()+"-----"+c.getPassword());
-            if (email.equals(c.getEmail())){
-                customer = c;
-            }
-        }
-        System.out.println("kon");
-        return customer;
     }
 }
 

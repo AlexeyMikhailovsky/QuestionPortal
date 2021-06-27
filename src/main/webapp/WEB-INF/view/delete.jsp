@@ -13,21 +13,13 @@
     <title>AccountDeletePage</title>
 </head>
 <body>
-IddfdfdffD:${customer.id}
-IddfdfdffD:${customer.password}
-IddfdfdffD:${customer.email}
-
 <form:form action="processDelete" modelAttribute="customer" method="POST">
     <form:hidden path="id" />
     <br><br>
-
     Password: <form:password placeholder="password" path="password" />
-
     <br/><br/>
-
     <input type="submit" value="Submit" />
 </form:form>
-
 <c:url var="toMain" value="/customer/mainpage">
     <c:param name="customerId" value="${customer.id}" />
 </c:url>

@@ -31,7 +31,6 @@ public class CustomerController {
     public String toMainPage(@RequestParam("customerId") int theId,
                              Model theModel){
         Customer theCustomer = customerService.getCustomer(theId);
-
         theModel.addAttribute("customer", theCustomer);
         theModel.addAttribute("questions", someQ(theCustomer.getId(), theCustomer.getEmail(), true));
         return "main";
@@ -42,7 +41,6 @@ public class CustomerController {
                            Model theModel){
         customerService.saveCustomer(theCustomer);
         theModel.addAttribute("questions", someQ(theCustomer.getId(), theCustomer.getEmail(), true));
-
         return "main";
     }
 
@@ -50,22 +48,16 @@ public class CustomerController {
     @RequestMapping("/edit")
     public String editPage(@RequestParam("customerId") int theId,
                            Model theModel){
-
         Customer theCustomer = customerService.getCustomer(theId);
-
         theModel.addAttribute("customer", theCustomer);
-
         return "edit";
     }
 
 
     @RequestMapping("/login")
     public String logginPage(Model theModel){
-
         Customer customer = new Customer();
-
         theModel.addAttribute("customer", customer);
-
         return "login";
     }
 
@@ -74,7 +66,6 @@ public class CustomerController {
         Customer theCustomer = oneC(customer.getEmail());
         theModel.addAttribute("customer", theCustomer);
         theModel.addAttribute("questions", someQ(theCustomer.getId(), theCustomer.getEmail(), true));
-
         return "main";
     }
 
@@ -116,119 +107,84 @@ public class CustomerController {
     @GetMapping("/showQuestionForm")
     public String showQuestionForm(@RequestParam("customerId") int theId,
                                    Model theModel) {
-
         Question theQuestion = new Question();
         theModel.addAttribute("question", theQuestion);
         theModel.addAttribute("customer", customerService.getCustomer(theId));
-
         return "changeQuestion";
     }
 
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model theModel) {
-
         Customer theCustomer = new Customer();
-
         theModel.addAttribute("customer", theCustomer);
-
         return "customer-form";
     }
 
     @PostMapping("/saveQuestion")
     public String saveQuestion(@ModelAttribute("question") Question theQuestion, Model theModel) {
-
-        System.out.println("id: -"+theQuestion.getIdQ());
         questionService.saveQuestion(theQuestion);
         Customer theCustomer = customerService.getCustomer(theQuestion.getIdCustomer());
         theModel.addAttribute("customer",theCustomer);
         theModel.addAttribute("questions", someQ(theCustomer.getId(), theCustomer.getEmail(), true));
-
         return "main";
-    }
-
-    @PostMapping("/saveCustomer")
-    public String saveCustomer(@ModelAttribute("customer") Customer theCustomer) {
-
-        customerService.saveCustomer(theCustomer);
-
-        return "redirect:/customer/list";
     }
 
     @GetMapping("/showFormQuestionForUpdate")
     public String showFormQuestionForUpdate(@RequestParam("customerId") int theId, @RequestParam("questionId") int theIdQ,
                                     Model theModel) {
-
         Customer theCustomer = customerService.getCustomer(theId);
         Question theQuestion = questionService.getQuestion(theIdQ);
-
         theModel.addAttribute("customer", theCustomer);
         theModel.addAttribute("question", theQuestion);
-
         return "changeQuestion";
     }
 
     @GetMapping("/showFormForUpdate")
     public String showFormForUpdate(@RequestParam("customerId") int theId,
                                     Model theModel) {
-
         Customer theCustomer = customerService.getCustomer(theId);
-
         theModel.addAttribute("customer", theCustomer);
-
         return "customer-form";
     }
 
     @GetMapping("/questionDelete")
     public String deleteQuestion(@RequestParam("customerId") int theCustomerId, @RequestParam("questionId") int theQuestionId,
                                  Model theModel) {
-        System.out.println("id : "+theQuestionId);
         questionService.deleteQuestion(theQuestionId);
         Customer theCustomer = customerService.getCustomer(theCustomerId);
-
         theModel.addAttribute("customer", theCustomer);
         theModel.addAttribute("questions", someQ(theCustomer.getId(), theCustomer.getEmail(), true));
-
         return "main";
     }
 
     @PostMapping("/processDelete")
     public String deleteCustomer(@ModelAttribute("customer") Customer theCustomer) {
-
-        System.out.println("id: "+ theCustomer.getId());
         questionService.deleteQuestions(theCustomer.getId());
         customerService.deleteCustomer(theCustomer.getId());
-
         return "redirect:/customer/login";
     }
 
     @GetMapping("/delete")
     public String deletePage(@RequestParam("customerId") int theId,
                              Model theModel) {
-
         Customer theCustomer = customerService.getCustomer(theId);
-
         theModel.addAttribute("customer", theCustomer);
-
         return "delete";
     }
 
     @GetMapping("/answerpage")
     public String answerPage(@RequestParam("customerId") int theId,
                              Model theModel) {
-
         Customer theCustomer = customerService.getCustomer(theId);
-
         theModel.addAttribute("customer", theCustomer);
-        theModel.addAttribute("questions", someQ(theId, theCustomer.getEmail(), false));
+        theModel.addAttribute("questions", someQ(theId, theCustomer.getEmail(), false));//change to
         return "answer";
     }
 
     @GetMapping("/toanswer")
     public String toAnswer(@RequestParam("questionIdQ") int theIdQ, @RequestParam("customerId") int theId,
                              Model theModel) {
-
         Customer theCustomer = customerService.getCustomer(theId);
-
         theModel.addAttribute("customer", theCustomer);
         theModel.addAttribute("question", questionService.getQuestion(theIdQ));//change to
         return "answerpage";
@@ -236,16 +192,12 @@ public class CustomerController {
 
     @PostMapping("/saveAnswer")
     public String saveAnswer(@ModelAttribute("question") Question theQuestion, Model theModel) {
-
-        System.out.println("id: -"+theQuestion.getIdQ());
         questionService.saveQuestion(theQuestion);
         Customer theCustomer = oneC(theQuestion.getToCustomerEmail());
         theModel.addAttribute("customer", theCustomer);
         theModel.addAttribute("questions", someQ(theCustomer.getId(), theCustomer.getEmail(), false));
-
         return "answer";
     }
-
 }
 
 

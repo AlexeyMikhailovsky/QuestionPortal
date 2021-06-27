@@ -13,22 +13,16 @@
     <title>Title</title>
 </head>
 <body>
-
 <div id="wrapper">
     <div id="header">
         <h2>QuestionPortal</h2>
     </div>
 </div>
-<p>
-    <a href="list">list</a>
-</p>
-
 <table>
     <tr>
         <th>ToCustomer</th>
         <th>QuestionText</th>
         <th>AnswerType</th>
-        <th>CustomerId</th>
         <th>answer</th>
     </tr>
     <c:forEach var="tempQuestion" items="${questions}">
@@ -36,10 +30,8 @@
                 <td>${tempQuestion.toCustomerEmail}</td>
                 <td>${tempQuestion.question}</td>
                 <td>${tempQuestion.answerType}</td>
-                <td>${tempQuestion.idCustomer}</td>
                 <td>${tempQuestion.answer}</td>
             </tr>
-
         <c:url var="deleteQ" value="/customer/questionDelete">
             <c:param name="questionId" value="${tempQuestion.idQ}" />
             <c:param name="customerId" value="${customer.id}" />
@@ -52,42 +44,29 @@
             <c:param name="questionId" value="${tempQuestion.idQ}" />
             <c:param name="customerId" value="${customer.id}" />
         </c:url>
-
         <a href="${editQ}">Edit question</a>
-
     </c:forEach>
 </table>
 
 <c:set var="tempCustomer" value="${customer}"/>
-
 <p>
-
-
     <c:url var="addLink" value="/customer/showQuestionForm">
         <c:param name="customerId" value="${tempCustomer.id}" />
     </c:url>
     <a href="${addLink}">Add Question</a>
 </p>
-
-IddfdfdffD:${customer.id}
-IddfdfdffD:${customer.password}
-IddfdfdffD:${customer.email}
 <p>
-
-
     <c:url var="updateLink" value="/customer/edit">
         <c:param name="customerId" value="${tempCustomer.id}" />
     </c:url>
     <a href="${updateLink}">Update</a>
 </p>
-
 <p>
     <c:url var="deleteLink" value="/customer/delete">
         <c:param name="customerId" value="${tempCustomer.id}" />
     </c:url>
     <a href="${deleteLink}">Delete</a>
 </p>
-
 <p>
     <c:url var="answerLink" value="/customer/answerpage">
         <c:param name="customerId" value="${tempCustomer.id}" />

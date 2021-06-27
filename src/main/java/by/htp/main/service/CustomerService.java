@@ -14,7 +14,5 @@ public interface CustomerService {
 
     public void deleteCustomer(int theId);
 
-    public Customer authorization (String email, String password) ;
-
 }
 

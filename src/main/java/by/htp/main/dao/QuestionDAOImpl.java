@@ -37,7 +37,6 @@ public class QuestionDAOImpl implements QuestionDAO{
         Session currentSession = sessionFactory.getCurrentSession();
         Question theQuestion = currentSession.get(Question.class, theId);
         return theQuestion;
-
     }
 
     @Override
@@ -55,7 +54,6 @@ public class QuestionDAOImpl implements QuestionDAO{
         Query theQuery =
                 currentSession.createQuery("delete from Question where idQ=:questionId");
         theQuery.setParameter("questionId", theId);
-
         theQuery.executeUpdate();
     }
 }

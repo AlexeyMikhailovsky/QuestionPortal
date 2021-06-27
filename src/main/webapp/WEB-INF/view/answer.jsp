@@ -13,13 +13,11 @@
     <title>Answer page</title>
 </head>
 <body>
-
 <table>
     <tr>
         <th>ToCustomer</th>
         <th>QuestionText</th>
         <th>AnswerType</th>
-        <th>CustomerId</th>
         <th>answer</th>
     </tr>
     <c:forEach var="question" items="${questions}">
@@ -27,7 +25,6 @@
             <td>${question.toCustomerEmail}</td>
             <td>${question.question}</td>
             <td>${question.answerType}</td>
-            <td>${question.idCustomer}</td>
             <td>${question.answer}</td>
         </tr>
         <c:url var="toAnswer" value="/customer/toanswer">
@@ -37,8 +34,6 @@
         <a href="${toAnswer}">to answer</a>
     </c:forEach>
 </table>
-
-
 <c:url var="toMain" value="/customer/mainpage">
     <c:param name="customerId" value="${customer.id}" />
 </c:url>
